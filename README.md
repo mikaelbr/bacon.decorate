@@ -14,7 +14,23 @@ are unsure how to use Bacon or what FRP is, the
 [Bacon.js README](https://github.com/baconjs/bacon.js) is very helpful
 and has a comprehensive introduction.
 
-## Example
+## Installing
+
+You can install by using NPM:
+
+```
+npm install bacon.decorate --save
+```
+
+or by copying the raw contents of [index.js](index.js).
+
+## Requirements
+
+`Bacon.decorate` is a convenience and syntactic sugar for Bacon.js,
+and as such, it requires Bacon.js to be included or required if using
+browserify or similar.
+
+## Usage example
 
 ```javascript
 var decorate = require('./');
