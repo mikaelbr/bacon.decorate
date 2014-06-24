@@ -139,17 +139,42 @@ someApi({ id : 1 }).log();
 
 ```
 
+### ```decorate.callback(fn)```
 
-### ```decorate.callback```
-More info soon
+Wraps async callback result from `fn` as a reactive data type.
+
+#### Example
+
+```javascript
+var test = decorators.callback(function (a, b, callback) {
+  callback(a + ", " + b);
+});
+
+test('Hello', 'World!').log();
+//=> Prints: Hello, World!
+```
 
 See [Bacon.js `.fromCallback()`](https://github.com/baconjs/bacon.js#bacon-fromcallback)
 
-### ```decorate.nodeCallback```
-More info soon
+### ```decorate.nodeCallback(fn)```
+
+Wraps async node style callback (with error as first argument)
+result from `fn` as a reactive data type.
+
+#### Example
+
+```javascript
+var test = decorators.callback(function (callback) {
+  callback(new Error('Denied!'));
+});
+
+test().onError(function(err) {
+  console.log(err.message);
+})
+//=> Prints: Denied!
+```
 
 See [Bacon.js `.fromNodeCallback()`](https://github.com/baconjs/bacon.js#bacon-fromnodecallback)
-
 
 ### ```decorate.event(fn, eventName[, transformFunction])```
 
