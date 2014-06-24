@@ -18,6 +18,9 @@
   "dependencies": {
     "baconjs": "^0.7.15"
   },
+  "browser": {
+    "baconjs": false
+  },
   "devDependencies": {
     "should": "^4.0.4",
     "mocha": "^1.20.1",
