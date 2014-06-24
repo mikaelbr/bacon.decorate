@@ -16,10 +16,18 @@ and has a comprehensive introduction.
 
 ## Installing
 
-You can install by using NPM:
+### You can install by using NPM
+
+Works on Node.js aswell as in Browserify.
 
 ```
 npm install bacon.decorate --save
+```
+
+### By using Bower
+
+```
+bower install bacon.decorate
 ```
 
 or by copying the raw contents of [index.js](index.js).
