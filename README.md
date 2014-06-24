@@ -83,30 +83,51 @@ More info soon
 ### ```decorate.event```
 More info soon
 
+See [Bacon.js .fromEventTarget()](https://github.com/baconjs/bacon.js#bacon-fromeventtarget)
+
 ### ```decorate.promise```
 More info soon
+
+See [Bacon.js .fromPromise()](https://github.com/baconjs/bacon.js#bacon-frompromise)
 
 ### ```decorate.value```
 More info soon
 
+See [Bacon.js .once()](https://github.com/baconjs/bacon.js#bacon-once)
+
 ### ```decorate.array```
 More info soon
+
+See [Bacon.js .fromArray()](https://github.com/baconjs/bacon.js#bacon-fromarray)
 
 ### ```decorate.interval```
 More info soon
 
+See [Bacon.js .interval()](https://github.com/baconjs/bacon.js#bacon-interval)
+
+
 ### ```decorate.sequentially```
 More info soon
+
+See [Bacon.js .sequentially()](https://github.com/baconjs/bacon.js#bacon-sequentially)
+
 
 ### ```decorate.repeatedly```
 More info soon
 
+See [Bacon.js .repeatedly()](https://github.com/baconjs/bacon.js#bacon-repeatedly)
+
+
 ### ```decorate.later```
 More info soon
+
+See [Bacon.js .later()](https://github.com/baconjs/bacon.js#bacon-later)
+
 
 ### ```decorate.poll```
 More info soon
 
+See [Bacon.js .fromPoll()](https://github.com/baconjs/bacon.js#bacon-frompoll)
 
 ## License
 
