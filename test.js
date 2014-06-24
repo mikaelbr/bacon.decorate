@@ -1,6 +1,7 @@
 var decorators = require('./');
 var should = require('should');
 var Bacon = require('baconjs');
+var Q = require('q');
 
 var EventEmitter = require('events').EventEmitter;
 
@@ -66,6 +67,24 @@ describe('BaconDecorator', function () {
       value.should.equal('Hello World');
       done();
     });
+  });
+
+  it('should return event stream from promise', function (done) {
+    var deferred;
+    var test = decorators.promise(function (a, b, callback) {
+      a.should.equal('1');
+      b.should.equal('2');
+
+      deferred = Q.defer();
+      return deferred.promise;
+    });
+
+    test('1', '2').onValue(function (value) {
+      value.should.equal('Hello World');
+      done();
+    });
+
+    deferred.resolve('Hello World');
   });
 
   it('should return event stream from value', function (done) {

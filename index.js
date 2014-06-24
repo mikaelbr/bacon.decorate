@@ -1,12 +1,44 @@
 var Bacon = require('baconjs');
 var slice = Function.prototype.call.bind(Array.prototype.slice);
 
+'use strict';
+
 module.exports = {
+  /*
+   * Returns an event stream with a value
+   * when callback is triggered
+   */
   callback: function (fn) {
     return function () {
       return Bacon.fromCallback.apply(
         Bacon,
         [fn].concat(slice(arguments)));
+    };
+  },
+
+  /*
+   * Returns an event stream with a value
+   * when event is triggered on target event
+   * with an optional transform.
+   */
+  event: function (target, fn, transform) {
+    return function () {
+      return Bacon.fromEventTarget.apply(
+        Bacon,
+        [call(fn, slice(arguments))].concat([target, transform]));
+    };
+  },
+
+  /*
+   * Returns an event stream with a value
+   * a returned promise either is resolved
+   * or rejected.
+   */
+  promise: function (fn, abort) {
+    return function () {
+      return Bacon.fromPromise.apply(
+        Bacon,
+        [call(fn, slice(arguments))].concat([abort]));
     };
   },
 
@@ -18,22 +50,12 @@ module.exports = {
   repeatedly: timedDecorator('repeatedly'),
   later: timedDecorator('later'),
 
-
-  event: function (target, fn, transform) {
-    return function () {
-      return Bacon.fromEventTarget.apply(
-        Bacon,
-        [call(fn, slice(arguments))].concat([target, transform]));
-    };
-  },
-
-  promise: function (fn) {
-    throw new Error('Not implemented yet');
-    // return function () {
-    //   return Bacon.fromPromise(call(fn, arguments));
-    // };
-  },
-
+  /*
+   * Returns an event stream with a value
+   * returned from function fn and polled
+   * every interval given by argument
+   * interval (in ms)
+   */
   poll: function (interval, fn) {
     return function () {
       return Bacon.fromPoll.apply(
@@ -41,11 +63,6 @@ module.exports = {
         [interval, fn].concat(slice(arguments)));
     };
   }
-};
-
-function exceptFirst (args, i) {
-  i = i || 1;
-  return slice(args, i);
 };
 
 function call (fn, args) {
@@ -75,4 +92,3 @@ function wrap (method, fn) {
     return Bacon[method](call(fn, slice(arguments)))
   };
 };
-
