@@ -69,6 +69,32 @@ describe('BaconDecorator', function () {
     });
   });
 
+  it('should return event stream from node callback', function (done) {
+    var test = decorators.nodeCallback(function (a, b, callback) {
+      a.should.equal('1');
+      b.should.equal('2');
+      callback(null, 'Hello World');
+    });
+
+    test('1', '2').onValue(function (value) {
+      value.should.equal('Hello World');
+      done();
+    });
+  });
+
+  it('should return error on event stream from node callback when error', function (done) {
+    var test = decorators.nodeCallback(function (a, b, callback) {
+      a.should.equal('1');
+      b.should.equal('2');
+      callback(new Error('Error'), 'Hello World');
+    });
+
+    test('1', '2').onError(function (err) {
+      err.message.should.equal('Error');
+      done();
+    });
+  });
+
   it('should return event stream from promise', function (done) {
     var deferred;
     var test = decorators.promise(function (a, b, callback) {

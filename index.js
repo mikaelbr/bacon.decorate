@@ -18,6 +18,19 @@
 
       /*
        * Returns an event stream with a value
+       * when callback is triggered from node
+       * (with error as first argument)
+       */
+      nodeCallback: function (fn) {
+        return function () {
+          return Bacon.fromNodeCallback.apply(
+            Bacon,
+            [fn].concat(slice(arguments)));
+        };
+      },
+
+      /*
+       * Returns an event stream with a value
        * when event is triggered on target event
        * with an optional transform.
        */
