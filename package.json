@@ -1,0 +1,25 @@
+{
+  "name": "bacon.decorate",
+  "version": "0.0.1",
+  "description": "A set of function decorators wrapping data to Bacon reactive data types",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "keywords": [
+    "bacon.js",
+    "frp",
+    "bacon",
+    "decorators",
+    "functional"
+  ],
+  "author": "Mikael Brevik <mikaelbre@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "baconjs": "^0.7.15"
+  },
+  "devDependencies": {
+    "should": "^4.0.4",
+    "mocha": "^1.20.1"
+  }
+}
