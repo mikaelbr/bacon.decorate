@@ -1,17 +1,18 @@
 # Bacon.decorate
 
-> Unify your API and abstract time using Functional Reactive Programming and [Bacon.js](https://github.com/baconjs/bacon.js)
+> Unify your API and abstract time using Functional Reactive Programming (FRP) and [Bacon.js](https://github.com/baconjs/bacon.js)
 
 APIs are hard. Sometimes they can have you provide a callback,
-other times they return a promise or not even be async. You
-can unify the usage of your API and abstract consepts like
-sync or async, by using Functional Reactive Programming
-and the help of a implementation called [Bacon.js](https://github.com/baconjs/bacon.js).
+other times they return a promise or be synchronous. You
+can unify the usage of your API and abstract concepts like
+sync or async, by using the paradigm Functional Reactive Programming
+with the help of a implementation called [Bacon.js](https://github.com/baconjs/bacon.js).
 
 The result of function calls will be reactive data types
 from [Bacon.js](https://github.com/baconjs/bacon.js). If you
-are unsure how to use Bacon, the [Bacon.js README](https://github.com/baconjs/bacon.js)
-is very helpful and comprehensive.
+are unsure how to use Bacon or what FRP is, the
+[Bacon.js README](https://github.com/baconjs/bacon.js) is very helpful
+and has a comprehensive introduction.
 
 ## Example
 
