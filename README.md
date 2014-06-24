@@ -1,4 +1,4 @@
-# Bacon.decorate
+# Bacon.decorate [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][depstat-image]][depstat-url]
 
 > Unify your API and abstract time using Functional Reactive Programming (FRP) and [Bacon.js](https://github.com/baconjs/bacon.js)
 
@@ -127,52 +127,71 @@ More info soon
 See [Bacon.js `.fromNodeCallback()`](https://github.com/baconjs/bacon.js#bacon-fromnodecallback)
 
 
-### ```decorate.event```
-More info soon
+### ```decorate.event(fn, eventName[, transformFunction])```
+
+Wraps event returned from `fn` on `eventName` channel. You can
+pass in an optional transform function to transform the event object
+returned from the `fn` function.
 
 See [Bacon.js `.fromEventTarget()`](https://github.com/baconjs/bacon.js#bacon-fromeventtarget)
 
-### ```decorate.promise```
-More info soon
+### ```decorate.promise(fn, abort)```
+
+Wraps promise returned from `fn` as a reactive data type.
+`abort` defines if `.abort` method should be called on promise
+when all subscribers of event stream is removed.
 
 See [Bacon.js `.fromPromise()`](https://github.com/baconjs/bacon.js#bacon-frompromise)
 
-### ```decorate.value```
-More info soon
+### ```decorate.value(fn)```
+
+Wraps primitive value returned from `fn` as a reactive data type.
 
 See [Bacon.js `.once()`](https://github.com/baconjs/bacon.js#bacon-once)
 
-### ```decorate.array```
-More info soon
+### ```decorate.array(fn)```
+
+Wraps an array returned from `fn` as a reactive data type.
+The result is an event stream that gives a value for each
+of the entries in the array.
 
 See [Bacon.js `.fromArray()`](https://github.com/baconjs/bacon.js#bacon-fromarray)
 
-### ```decorate.interval```
-More info soon
+### ```decorate.interval(interval, fn)```
+
+Wraps to an event stream that gives value returned from `fn`
+every ms defined by `interval`.
 
 See [Bacon.js `.interval()`](https://github.com/baconjs/bacon.js#bacon-interval)
 
 
-### ```decorate.sequentially```
-More info soon
+### ```decorate.sequentially(interval, fn)```
+
+Wraps to an event stream that gives value for each item
+every ms defined by `interval` from an array returned from `fn`.
 
 See [Bacon.js `.sequentially()`](https://github.com/baconjs/bacon.js#bacon-sequentially)
 
 
-### ```decorate.repeatedly```
-More info soon
+### ```decorate.repeatedly(interval, fn)```
+
+Same as ```decorate.sequentially(interval, fn)```, but starting from first
+item in the returned array when the end is reached, instead of ending.
 
 See [Bacon.js `.repeatedly()`](https://github.com/baconjs/bacon.js#bacon-repeatedly)
 
 
-### ```decorate.later```
-More info soon
+### ```decorate.later(delay, fn)```
+
+Gives an event stream that gives a value returned from `fn` after
+`delay` milliseconds.
 
 See [Bacon.js `.later()`](https://github.com/baconjs/bacon.js#bacon-later)
 
 
-### ```decorate.poll```
-More info soon
+### ```decorate.poll(interval, fn)```
+
+Returns an event stream with values from polling `fn` every `interval` milliseconds.
 
 See [Bacon.js `.fromPoll()`](https://github.com/baconjs/bacon.js#bacon-frompoll)
 
@@ -180,5 +199,16 @@ See [Bacon.js `.fromPoll()`](https://github.com/baconjs/bacon.js#bacon-frompoll)
 
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
 
+[![NPM downloads][npm-downloads]][npm-url]
+
+[npm-url]: https://npmjs.org/package/bacon.decorate
+[npm-image]: http://img.shields.io/npm/v/bacon.decorate.svg?style=flat
+[npm-downloads]: http://img.shields.io/npm/dm/bacon.decorate.svg?style=flat
+
+[travis-url]: http://travis-ci.org/mikaelbr/bacon.decorate
+[travis-image]: http://img.shields.io/travis/mikaelbr/bacon.decorate.svg?style=flat
+
+[depstat-url]: https://gemnasium.com/mikaelbr/bacon.decorate
+[depstat-image]: http://img.shields.io/gemnasium/mikaelbr/bacon.decorate.svg?style=flat
 
 
