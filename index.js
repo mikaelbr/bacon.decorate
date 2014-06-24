@@ -5,6 +5,40 @@
   var decorators = function (Bacon) {
     return {
       /*
+       * Select automaticly the reactive data type wrapping
+       * based on returned type.
+       *
+       * Only for where type is returned in function like:
+       * returned promises, arrays, values and eventemitter objects
+       */
+      autoValue: function (fn) {
+        var dArgs = arguments;
+
+        return function () {
+          var val = call(fn, slice(arguments));
+          var method = getMethodOfReturn(val);
+          var args = method !== 'fromEventTarget'
+            ? [val].concat(arguments)
+            : [val].concat(slice(dArgs, 1))
+                .concat(slice(arguments, 1));
+          return Bacon[method].apply(Bacon, args);
+        };
+      },
+
+      /*
+       * Returns an event stream with a value
+       * when event is triggered on target event
+       * with an optional transform.
+       */
+      event: function (fn, target, transform) {
+        return function () {
+          return Bacon.fromEventTarget.apply(
+            Bacon,
+            [call(fn, slice(arguments))].concat([target, transform]));
+        };
+      },
+
+      /*
        * Returns an event stream with a value
        * when callback is triggered
        */
@@ -26,19 +60,6 @@
           return Bacon.fromNodeCallback.apply(
             Bacon,
             [fn].concat(slice(arguments)));
-        };
-      },
-
-      /*
-       * Returns an event stream with a value
-       * when event is triggered on target event
-       * with an optional transform.
-       */
-      event: function (target, fn, transform) {
-        return function () {
-          return Bacon.fromEventTarget.apply(
-            Bacon,
-            [call(fn, slice(arguments))].concat([target, transform]));
         };
       },
 
@@ -105,6 +126,23 @@
         return Bacon[method](call(fn, slice(arguments)))
       };
     };
+
+    function getMethodOfReturn (val) {
+      if (Array.isArray(val)) {
+        return 'fromArray';
+      }
+
+      if (typeof val === 'object'
+        && (val.on || val.addEventListener || val.bind)) {
+        return 'fromEventTarget';
+      }
+
+      if (val && typeof val.then === 'function') {
+        return 'fromPromise';
+      }
+
+      return 'once';
+    }
   };
 
   (function (factory) {

@@ -48,7 +48,7 @@ describe('BaconDecorator', function () {
 
   it('should return event stream from promise', function (done) {
     var deferred;
-    var test = decorators.promise(function (a, b, callback) {
+    var test = decorators.promise(function (a, b) {
       a.should.equal('1');
       b.should.equal('2');
 
@@ -175,19 +175,81 @@ describe('BaconDecorator', function () {
       });
   });
 
+  describe('autoValue', function () {
+
+    it('should deduce to return event stream from value', function (done) {
+      var test = decorators.autoValue(function (a, b) {
+        a.should.equal(1);
+        b.should.equal(22);
+        return a + b;
+      });
+
+      test(1, 22).onValue(function (value) {
+        value.should.equal(23);
+        done();
+      });
+    });
+
+    it('should deduce to return event stream from promise', function (done) {
+      var deferred;
+      var test = decorators.autoValue(function () {
+        deferred = Q.defer();
+        return deferred.promise;
+      });
+
+      test().onValue(function (value) {
+        value.should.equal('Hello World');
+        done();
+      });
+
+      deferred.resolve('Hello World');
+    });
+
+    it('should deduce to return event stream from arrays', function (done) {
+      var test = decorators.autoValue(function (a, b) {
+        return [a, b];
+      });
+
+      test(1, 22)
+        .fold([], '.concat')
+        .onValue(function (value) {
+          Array.isArray(value).should.be.ok;
+          value.should.eql([1, 22]);
+          done();
+        });
+    });
+
+    it('should deduce to return event stream from event target', function (done) {
+      var event;
+      var test = decorators.autoValue(function () {
+        event = new EventEmitter();
+        return event;
+      }, 'data');
+
+      test()
+        .scan([], '.concat')
+        .sampledBy(Bacon.fromEventTarget(event, 'stop'))
+        .onValue(function (value) {
+          value.should.eql(['3', '4']);
+          done();
+        });
+
+      event.emit('data', '3');
+      event.emit('data', '4');
+      event.emit('stop');
+    });
+
+  });
 
   describe('Events', function () {
     it('should return event stream from event target', function (done) {
       var event;
-      var test = decorators.event('data', function (a, b) {
-        a.should.equal('1');
-        b.should.equal('2');
-
+      var test = decorators.event(function () {
         event = new EventEmitter();
         return event;
-      });
+      }, 'data');
 
-      test('1', '2')
+      test()
         .scan([], '.concat')
         .sampledBy(Bacon.fromEventTarget(event, 'stop'))
         .onValue(function (value) {
@@ -203,10 +265,10 @@ describe('BaconDecorator', function () {
     it('should return event stream from event target and transform data', function (done) {
       var event;
 
-      var test = decorators.event('data', function () {
+      var test = decorators.event(function () {
         event = new EventEmitter();
         return event;
-      }, function (a) {
+      }, 'data', function (a) {
         return a * 2;
       });
 
@@ -223,4 +285,5 @@ describe('BaconDecorator', function () {
       event.emit('stop');
     });
   });
+
 });
