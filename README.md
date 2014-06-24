@@ -20,7 +20,7 @@ and has a comprehensive introduction.
 var decorate = require('./');
 var Q = require('q');
 
-var m = {
+var API = {
 
   // Async values using promises
   get: decorate.promise(function (arg1, arg2) {
@@ -63,7 +63,7 @@ can easily combine them in different ways.
 
 ```javascript
 // Waiting for multiple values (example)
-m.get('foo', 'bar')
+API.get('foo', 'bar')
   .combine(m.getAnother('Foo', 'Bar'), function (a, b) {
     return a + ": " + b;
   })
@@ -78,8 +78,54 @@ m.get('foo', 'bar')
 
 ## API
 
+### ```decorate.autoValue```
+Automaticly choose wrapping type based on type of value returned
+from function. Only works on value type wrapping functions including:
+`event`, `promise`, `value` and `array`.
+
+This is useful when you return different types of data in a function.
+
+#### Example
+
+```javascript
+
+var someAPI = decorate.autoValue(function(a) {
+  if (someCondintional) {
+    return 42;
+  }
+
+  if (Array.isArray(a)) {
+    return a;
+  }
+
+  if (someOtherConditional) {
+    // 'click' is passed as event type
+    // through second argument to autoValue
+    return document.body;
+  }
+
+  return $.ajax({
+    url: '/async/call/here?' + $.params(a)
+  });
+}, 'click');
+
+// Logs the result of an ajax call.
+// No need to check for sync values
+someApi({ id : 1 }).log();
+
+```
+
+
 ### ```decorate.callback```
 More info soon
+
+See [Bacon.js `.fromCallback()`](https://github.com/baconjs/bacon.js#bacon-fromcallback)
+
+### ```decorate.nodeCallback```
+More info soon
+
+See [Bacon.js `.fromNodeCallback()`](https://github.com/baconjs/bacon.js#bacon-fromnodecallback)
+
 
 ### ```decorate.event```
 More info soon
