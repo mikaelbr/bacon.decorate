@@ -7,55 +7,6 @@ var EventEmitter = require('events').EventEmitter;
 
 describe('BaconDecorator', function () {
 
-
-  describe('Events', function () {
-    it('should return event stream from event target', function (done) {
-      var event;
-      var test = decorators.event('data', function (a, b) {
-        a.should.equal('1');
-        b.should.equal('2');
-
-        event = new EventEmitter();
-        return event;
-      });
-
-      test('1', '2')
-        .scan([], '.concat')
-        .sampledBy(Bacon.fromEventTarget(event, 'stop'))
-        .onValue(function (value) {
-          value.should.eql(['3', '4']);
-          done();
-        });
-
-      event.emit('data', '3');
-      event.emit('data', '4');
-      event.emit('stop');
-    });
-
-    it('should return event stream from event target and transform data', function (done) {
-      var event;
-
-      var test = decorators.event('data', function () {
-        event = new EventEmitter();
-        return event;
-      }, function (a) {
-        return a * 2;
-      });
-
-      test()
-        .scan([], '.concat')
-        .sampledBy(Bacon.fromEventTarget(event, 'stop'))
-        .onValue(function (value) {
-          value.should.eql([2, 4]);
-          done();
-        });
-
-      event.emit('data', 1);
-      event.emit('data', 2);
-      event.emit('stop');
-    });
-  });
-
   it('should return event stream from callback', function (done) {
     var test = decorators.callback(function (a, b, callback) {
       a.should.equal('1');
@@ -225,4 +176,51 @@ describe('BaconDecorator', function () {
   });
 
 
+  describe('Events', function () {
+    it('should return event stream from event target', function (done) {
+      var event;
+      var test = decorators.event('data', function (a, b) {
+        a.should.equal('1');
+        b.should.equal('2');
+
+        event = new EventEmitter();
+        return event;
+      });
+
+      test('1', '2')
+        .scan([], '.concat')
+        .sampledBy(Bacon.fromEventTarget(event, 'stop'))
+        .onValue(function (value) {
+          value.should.eql(['3', '4']);
+          done();
+        });
+
+      event.emit('data', '3');
+      event.emit('data', '4');
+      event.emit('stop');
+    });
+
+    it('should return event stream from event target and transform data', function (done) {
+      var event;
+
+      var test = decorators.event('data', function () {
+        event = new EventEmitter();
+        return event;
+      }, function (a) {
+        return a * 2;
+      });
+
+      test()
+        .scan([], '.concat')
+        .sampledBy(Bacon.fromEventTarget(event, 'stop'))
+        .onValue(function (value) {
+          value.should.eql([2, 4]);
+          done();
+        });
+
+      event.emit('data', 1);
+      event.emit('data', 2);
+      event.emit('stop');
+    });
+  });
 });
